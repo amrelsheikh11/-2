@@ -1,322 +1,577 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إيصال مستحقات فاخر</title>
-    <style>
-        @import url('https://googleapis.com');
+# Translation of CubicERP Server.
+# This file contains the translation of the following modules:
+# * account_voucher
+# 
+# Translators:
+# Martin Trigaux <mat@odoo.com>, 2017
+# Mustafa Rawi <mustafa@cubexco.com>, 2017
+# Abd El-Rahman Ali <abdelrahman.ali.242@gmail.com>, 2017
+# hoxhe Aits <hoxhe0@gmail.com>, 2017
+# Mohammed Ibrahim <m.ibrahim@mussder.com>, 2017
+# Osama Ahmaro <osamaahmaro@gmail.com>, 2017
+# Mustafa J. Kadhem <safi2266@gmail.com>, 2017
+# hamza tayseer atieh <hamza.atieh@minervadata.com>, 2017
+# Shaima Safar <shaima.safar@open-inside.com>, 2017
+# Ghaith Gammar <g.gammar@saharaifs.net>, 2017
+# Islam Eldeeb <islameldeb@gmail.com>, 2017
+# ThaniAldawood <taldawood@hotmail.com>, 2017
+# Sadig Adam <sadig41@gmail.com>, 2017
+# amrnegm <amrnegm.01@gmail.com>, 2017
+# Mohammed Albasha <m.albasha.ma@gmail.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: CubicERP 9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-20 09:52+0000\n"
+"PO-Revision-Date: 2017-09-20 09:52+0000\n"
+"Last-Translator: Mohammed Albasha <m.albasha.ma@gmail.com>, 2017\n"
+"Language-Team: Arabic (https://www.transifex.com/odoo/teams/41243/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-        :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --card-bg: rgba(255, 255, 255, 0.98);
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --gold-primary: #af9267;
-            --gold-secondary: #c5a880;
-            --border-color: #f1f5f9;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_state
+msgid ""
+" * The 'Draft' status is used when a user is encoding a new and unconfirmed Voucher.\n"
+" * The 'Pro-forma' status is used when the voucher does not have a voucher number.\n"
+" * The 'Posted' status is used when user create voucher,a voucher number is generated and voucher entries are created in account.\n"
+" * The 'Cancelled' status is used when user cancel voucher."
+msgstr ""
+"* تستخدم الحالة `مسودة` عندما يشفر المستخدم قسيمة جديدة.\n"
+"*  تستخدم الحالة Pro-forma عندما لاتحوي القسيمة رقما\n"
+"* تستخدم الحالة `مرسل` عند انشاء المستخدم لقسيمة، ويولد رقم للقسيمة ويتم انشاء مدخلات القسيمة في حساب\n"
+"* تستخدم الحالة `ملغاة عندما يلغي المستخدم القسيمة"
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_account_id
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_account_id
+msgid "Account"
+msgstr "حساب"
 
-        .receipt-card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            padding: 50px 40px;
-            max-width: 460px;
-            width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+msgid "Account Date"
+msgstr "تاريخ القيد"
 
-        .receipt-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
-            border-radius: 28px 28px 0 0;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_account_date
+msgid "Accounting Date"
+msgstr "تاريخ المحاسبة"
 
-        .header {
-            text-align: center;
-            margin-bottom: 45px;
-        }
+#. module: account_voucher
+#: model:ir.model,name:account_voucher.model_account_voucher
+msgid "Accounting Voucher"
+msgstr "السند المحاسبي"
 
-        .header .icon {
-            font-size: 32px;
-            color: var(--gold-primary);
-            margin-bottom: 8px;
-            display: inline-block;
-            font-weight: 300;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_price_subtotal
+msgid "Amount"
+msgstr "الزمن"
 
-        .header h1 {
-            margin: 0;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-dark);
-            letter-spacing: -0.5px;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_account_analytic_id
+msgid "Analytic Account"
+msgstr "الحساب التحليلي"
 
-        .header p {
-            margin: 5px 0 0 0;
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 500;
-        }
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Are you sure you want to cancel this receipt?"
+msgstr "هل ترغب حقاً في إلغاء هذا الإيصال؟"
 
-        .details-section {
-            margin-bottom: 40px;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_date
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Bill Date"
+msgstr "تاريخ الفاتورة"
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-        }
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+msgid "Bill Information"
+msgstr "بيانات الوثيقة"
 
-        .info-row:last-child {
-            border-bottom: none;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_reference
+msgid "Bill Reference"
+msgstr "مرجع الفاتورة"
 
-        .label {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+msgid "Cancel"
+msgstr "إلغاء"
 
-        /* حقول نصية فاخرة مرنة للكتابة المباشرة */
-        .editable-field {
-            font-weight: 600;
-            color: var(--text-dark);
-            border-bottom: 1px dashed #cbd5e1;
-            padding: 2px 6px;
-            min-width: 140px;
-            text-align: left;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Cancel Receipt"
+msgstr "إلغاء الإيصال"
 
-        .editable-field:focus {
-            border-bottom-color: var(--gold-primary);
-            background-color: #f8fafc;
-            border-radius: 6px;
-        }
+#. module: account_voucher
+#: selection:account.voucher,state:0
+msgid "Cancelled"
+msgstr "ملغى "
 
-        select {
-            font-family: 'Cairo', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-dark);
-            border: none;
-            border-bottom: 1px dashed #cbd5e1;
-            outline: none;
-            background: transparent;
-            cursor: pointer;
-            padding: 2px 4px;
-            text-align: left;
-            direction: rtl;
-        }
+#. module: account_voucher
+#: code:addons/account_voucher/models/account_voucher.py:159
+#, python-format
+msgid "Cannot delete voucher(s) which are already opened or paid."
+msgstr "لا يمكن حذف قسيمة (s) التي تم فتحها بالفعل أو المدفوعة."
 
-        .amount-container {
-            text-align: center;
-            padding: 30px 0 15px 0;
-            border-top: 1px solid var(--border-color);
-        }
+#. module: account_voucher
+#: model:ir.actions.act_window,help:account_voucher.action_sale_receipt
+msgid "Click to create a sale receipt."
+msgstr "انقر لانشاء وصل بيع."
 
-        .amount-title {
-            font-size: 11px;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            display: block;
-        }
+#. module: account_voucher
+#: model:ir.actions.act_window,help:account_voucher.action_purchase_receipt
+msgid "Click to register a purchase receipt."
+msgstr "انقر لتسجيل وصل شراء."
 
-        .amount-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_company_id
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_company_id
+msgid "Company"
+msgstr "الشركة"
 
-        .amount-val {
-            font-size: 40px;
-            font-weight: 800;
-            color: var(--text-dark);
-            outline: none;
-            display: inline-block;
-            min-width: 100px;
-            border-bottom: 2px dashed #cbd5e1;
-            padding: 0 4px;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_company_id
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_line_company_id
+msgid "Company related to this journal"
+msgstr "الشركات المرتبطة بهذه اليومية"
 
-        .amount-val:focus {
-            border-bottom-color: var(--gold-primary);
-            background-color: #f8fafc;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_create_uid
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
 
-        .currency {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--gold-primary);
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_create_date
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_create_date
+msgid "Created on"
+msgstr "أنشئ في"
 
-        .word-taqfeet {
-            font-size: 13px;
-            color: var(--gold-primary);
-            font-weight: 600;
-            margin-top: 12px;
-            min-height: 22px;
-            background: #faf8f5;
-            padding: 6px 12px;
-            border-radius: 8px;
-            display: inline-block;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_currency_id
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_currency_id
+msgid "Currency"
+msgstr "العملة"
 
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 400;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_tree
+msgid "Customer"
+msgstr "العميل"
 
-        .btn-wrapper {
-            margin-top: 30px;
-            width: 100%;
-            max-width: 460px;
-            text-align: center;
-        }
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+msgid "Date"
+msgstr "التاريخ"
 
-        .action-btn {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
-            border: none;
-            color: #ffffff;
-            padding: 12px 35px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(175, 146, 103, 0.2);
-            transition: all 0.3s ease;
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_name
+msgid "Description"
+msgstr "الوصف"
 
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px rgba(175, 146, 103, 0.3);
-        }
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_display_name
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
 
-        /* تنسيقات الطباعة الرسمية والمصمتة بالكامل */
-        @media print {
-            body { background: white; padding: 0; }
-            .receipt-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
-            .action-btn { display: none; }
-            .editable-field, .amount-val {
-                border-bottom: none !important;
-                padding: 0 !important;
-                background: transparent !important;
-            }
-            select {
-                border-bottom: none !important;
-                appearance: none;
-                -webkit-appearance: none;
-            }
-            .word-taqfeet {
-                background: transparent !important;
-                padding: 0 !important;
-            }
-        }
-    </style>
-</head>
-<body>
+#. module: account_voucher
+#: selection:account.voucher,state:0
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Draft"
+msgstr "مسودة"
 
-    <div class="receipt-card">
-        <div class="header">
-            <div class="icon">✧</div>
-            <h1>إيصال مستحقات ذكي</h1>
-            <p>Payment Receipt Document</p>
-        </div>
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Draft Vouchers"
+msgstr "القسائم الإفتراضية"
 
-        <div class="details-section">
-            <div class="info-row">
-                <span class="label">رقم الإيصال</span>
-                <span class="editable-field" contenteditable="true">#0482</span>
-            </div>
-            <div class="row info-row">
-                <span class="label">التاريخ</span>
-                <span class="editable-field" contenteditable="true" id="date">23 سبتمبر 2026</span>
-            </div>
-            <div class="info-row">
-                <span class="label">مستحقات العميل</span>
-                <span class="editable-field" contenteditable="true">أحمد محمد</span>
-            </div>
-            <div class="info-row">
-                <span class="label">مقابل خدمات</span>
-                <span class="editable-field" contenteditable="true">تصميم وتطوير واجهات الويب</span>
-            </div>
-            <div class="info-row">
-                <span class="label">طريقة الدفع</span>
-                <span class="val">
-                    <select id="payment-method">
-                        <option value="1">انستاباي (InstaPay)</option>
-                        <option value="2">فودافون كاش (Vodafone Cash)</option>
-                        <option value="3">تحويل بنكي (Bank Transfer)</option>
-                    </select>
-                </span>
-            </div>
-        </div>
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_date_due
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
 
-        <div class="amount-container">
-            <span class="amount-title">المبلغ المستلم إلكترونياً</span>
-            <div class="amount-wrapper">
-                <span class="amount-val" id="num-input" contenteditable="true">2000</span>
-                <span class="currency">ج.م</span>
-            </div>
-            <!-- حقل التفقيط اللحظي السلس -->
-            <div class="word-taqfeet" id="word-output">فقط ألفان جنيه مصري لا غير</div>
-        </div>
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_account_date
+msgid "Effective date for accounting entries"
+msgstr "تاريخ فعال للمدخلات المحاسبية"
 
-        <div class="footer">
-            <p>نشكركم على حسن تعاونكم وثقتكم بنا.</p>
-        </div>
-    </div>
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_line_sequence
+msgid "Gives the sequence of this line when displaying the voucher."
+msgstr "يعطي تسلسل لهذا السطر عندما يتم عرض الايصال"
 
-    <div class="btn-wrapper">
-        <button class="action-btn" onclick="window.print()">حفظ وطباعة الإيصال</button>
-    </div>
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Group By"
+msgstr "تجميع حسب"
 
-    <script>
-        // إعداد التاريخ التلقائي لليوم الحالي
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('date').innerText = new Date().toLocaleDateString('ar-EG', options);
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_id
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_id
+msgid "ID"
+msgstr "المعرف"
 
-        // نظام التفقيط البرمجي الاحترافي المتطور لمنع أي تعليق
-        function taqfeet(num) {
-            if (num === 0 || isNaN(num)) return 'صفر جنيه مصري';
-            
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_tax_correction
+msgid ""
+"In case we have a rounding problem in the tax, use this field to correct it"
+msgstr "في حالة وجود مشكلة بالتقريب للضريبة استخدم هذا الحقل لتصحيحه"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Internal Notes"
+msgstr "ملاحظات داخلية"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_journal_id
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Journal"
+msgstr "دفتر اليومية"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_move_id
+msgid "Journal Entry"
+msgstr "قيد يومية"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Journal Items"
+msgstr "عناصر اليومية"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher___last_update
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line___last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_write_uid
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_write_date
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_narration
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_number
+msgid "Number"
+msgstr "الرقم"
+
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_line_tax_ids
+msgid "Only for tax excluded from price"
+msgstr "السعر لا يشمل الضريبة"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_paid
+msgid "Paid"
+msgstr "مدفوع"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_partner_id
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+msgid "Partner"
+msgstr "الشريك"
+
+#. module: account_voucher
+#: selection:account.voucher,pay_now:0
+msgid "Pay Directly"
+msgstr "الدفع مباشرة"
+
+#. module: account_voucher
+#: selection:account.voucher,pay_now:0
+msgid "Pay Later"
+msgstr "الدفع لاحقاً"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_pay_now
+msgid "Payment"
+msgstr "السداد"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_name
+msgid "Payment Reference"
+msgstr "رقم اشارة السداد"
+
+#. module: account_voucher
+#: code:addons/account_voucher/models/account_voucher.py:195
+#, python-format
+msgid "Please activate the sequence of selected journal !"
+msgstr "الرجاء تفعيل التسلسل لليومية المختارة!"
+
+#. module: account_voucher
+#: code:addons/account_voucher/models/account_voucher.py:198
+#, python-format
+msgid "Please define a sequence on the journal."
+msgstr "من فضلك حدد تسلسل  في دفتر اليومية."
+
+#. module: account_voucher
+#: selection:account.voucher,state:0
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Posted"
+msgstr "مُؤجلة  "
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Posted Vouchers"
+msgstr "نشر القسيمة"
+
+#. module: account_voucher
+#: selection:account.voucher,state:0
+msgid "Pro-forma"
+msgstr "أولى"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_product_id
+msgid "Product"
+msgstr "المنتج"
+
+#. module: account_voucher
+#: selection:account.voucher,voucher_type:0
+msgid "Purchase"
+msgstr "الشراء"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+msgid "Purchase Receipt"
+msgstr "ايصال الشراء"
+
+#. module: account_voucher
+#: model:ir.actions.act_window,name:account_voucher.action_purchase_receipt
+#: model:ir.ui.menu,name:account_voucher.menu_action_purchase_receipt
+msgid "Purchase Receipts"
+msgstr "إيصالات الشراء"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+msgid "Purchase Voucher"
+msgstr "قسائم الشراء"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_quantity
+msgid "Quantity"
+msgstr "كمية"
+
+#. module: account_voucher
+#: selection:account.voucher,voucher_type:0
+msgid "Sale"
+msgstr "المبيعات"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Sales Information"
+msgstr "بيانات المبيعات"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Sales Receipt"
+msgstr "استلام المبيعات"
+
+#. module: account_voucher
+#: model:ir.actions.act_window,name:account_voucher.action_sale_receipt
+#: model:ir.ui.menu,name:account_voucher.menu_action_sale_receipt
+msgid "Sales Receipts"
+msgstr "إيصالات المبيعات"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Search Vouchers"
+msgstr "بحث الإيصالات"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_sequence
+msgid "Sequence"
+msgstr "التسلسل"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Set to Draft"
+msgstr "تعيين كمسودة"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_state
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+msgid "Status"
+msgstr "الحالة "
+
+#. module: account_voucher
+#: model:mail.message.subtype,name:account_voucher.mt_voucher_state_change
+msgid "Status Change"
+msgstr "تغيير الحالة"
+
+#. module: account_voucher
+#: model:mail.message.subtype,description:account_voucher.mt_voucher_state_change
+msgid "Status changed"
+msgstr "الحالة تغيرت"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_tax_ids
+msgid "Tax"
+msgstr "الضريبة"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_tax_amount
+msgid "Tax Amount"
+msgstr "قيمة الضريبة"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_tax_correction
+msgid "Tax Correction"
+msgstr ""
+
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_paid
+msgid "The Voucher has been totally paid."
+msgstr "لقد تم دفع القسيمة بالكامل"
+
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_line_account_id
+msgid "The income or expense account related to the selected product."
+msgstr "حساب الايراد أو حساب المصروف مرتبط بالمنتج المُختار."
+
+#. module: account_voucher
+#: model:ir.model.fields,help:account_voucher.field_account_voucher_reference
+msgid "The partner reference of this document."
+msgstr "مرجع الشريك لهذا المستند"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+msgid "To Review"
+msgstr "للمراجعة"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_amount
+msgid "Total"
+msgstr "الإجمالي "
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_tree
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_tree_purchase
+msgid "Total Amount"
+msgstr "إجمالي المبلغ"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_voucher_type
+msgid "Type"
+msgstr "النوع"
+
+#. module: account_voucher
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_price_unit
+msgid "Unit Price"
+msgstr "سعر الوحده "
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+msgid "Validate"
+msgstr "اعتماد "
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_tree_purchase
+msgid "Vendor"
+msgstr "المورد"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+msgid "Vendor Voucher"
+msgstr "ايصال المجهز"
+
+#. module: account_voucher
+#: code:addons/account_voucher/models/account_voucher.py:97
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_voucher_id
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_sale
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_filter_vendor
+#, python-format
+msgid "Voucher"
+msgstr "قيد"
+
+#. module: account_voucher
+#: model:ir.actions.act_window,name:account_voucher.act_journal_voucher_open
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_tree
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_tree_purchase
+msgid "Voucher Entries"
+msgstr "قيود الإيصال"
+
+#. module: account_voucher
+#: model:ir.model,name:account_voucher.model_account_voucher_line
+#: model:ir.model.fields,field_description:account_voucher.field_account_voucher_line_ids
+#: model:ir.ui.view,arch_db:account_voucher.view_purchase_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_sale_receipt_form
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_line_form
+#: model:ir.ui.view,arch_db:account_voucher.view_voucher_line_tree
+msgid "Voucher Lines"
+msgstr "خطوط القسيمة"
+
+#. module: account_voucher
+#: model:ir.ui.view,arch_db:account_voucher.account_cash_statement_graph
+msgid "Voucher Statistics"
+msgstr "احصائيات القسيمة"
+
+#. module: account_voucher
+#: model:ir.actions.act_window,name:account_voucher.action_review_voucher_list
+msgid "Vouchers Entries"
+msgstr "قيود الإيصالات"
+
+#. module: account_voucher
+#: model:ir.actions.act_window,help:account_voucher.action_purchase_receipt
+msgid ""
+"When the purchase receipt is confirmed, you can record the\n"
+"                vendor payment related to this purchase receipt."
+msgstr ""
+"عند تاكييد وصل الشراء يمكنك تسجيل\n"
+"دفعة المجهز المتعلقة بوصل الشراء هذا."
+
+#. module: account_voucher
+#: model:ir.actions.act_window,help:account_voucher.action_sale_receipt
+msgid ""
+"When the sale receipt is confirmed, you can record the customer\n"
+"                payment related to this sales receipt."
+msgstr ""
+"عند تأكييد وصل البيع يمكنك تسجيل دفعة العميل \n"
+"المتعلقة بوصل البيع هذا."
+
+#. module: account_voucher
+#: code:addons/account_voucher/models/account_voucher.py:377
+#, python-format
+msgid "You must first select a partner!"
+msgstr "يجب أن تختار شريك أولاً!"
