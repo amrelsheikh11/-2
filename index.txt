@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إيصال مستحقات فاخر</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --gold-primary: #af9267;
+            --gold-secondary: #c5a880;
+            --border-color: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .receipt-card {
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 50px 40px;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .receipt-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
+            border-radius: 28px 28px 0 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .header .icon {
+            font-size: 32px;
+            color: var(--gold-primary);
+            margin-bottom: 8px;
+            display: inline-block;
+            font-weight: 300;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+        }
+
+        .details-section {
+            margin-bottom: 40px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* حقول نصية فاخرة مرنة للكتابة المباشرة */
+        .editable-field {
+            font-weight: 600;
+            color: var(--text-dark);
+            border-bottom: 1px dashed #cbd5e1;
+            padding: 2px 6px;
+            min-width: 140px;
+            text-align: left;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .editable-field:focus {
+            border-bottom-color: var(--gold-primary);
+            background-color: #f8fafc;
+            border-radius: 6px;
+        }
+
+        select {
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            border: none;
+            border-bottom: 1px dashed #cbd5e1;
+            outline: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 2px 4px;
+            text-align: left;
+            direction: rtl;
+        }
+
+        .amount-container {
+            text-align: center;
+            padding: 30px 0 15px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .amount-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .amount-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .amount-val {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--text-dark);
+            outline: none;
+            display: inline-block;
+            min-width: 100px;
+            border-bottom: 2px dashed #cbd5e1;
+            padding: 0 4px;
+        }
+
+        .amount-val:focus {
+            border-bottom-color: var(--gold-primary);
+            background-color: #f8fafc;
+        }
+
+        .currency {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold-primary);
+        }
+
+        .word-taqfeet {
+            font-size: 13px;
+            color: var(--gold-primary);
+            font-weight: 600;
+            margin-top: 12px;
+            min-height: 22px;
+            background: #faf8f5;
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 400;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .btn-wrapper {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+        }
+
+        .action-btn {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+            border: none;
+            color: #ffffff;
+            padding: 12px 35px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(175, 146, 103, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(175, 146, 103, 0.3);
+        }
+
+        /* تنسيقات الطباعة الرسمية والمصمتة بالكامل */
+        @media print {
+            body { background: white; padding: 0; }
+            .receipt-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+            .action-btn { display: none; }
+            .editable-field, .amount-val {
+                border-bottom: none !important;
+                padding: 0 !important;
+                background: transparent !important;
+            }
+            select {
+                border-bottom: none !important;
+                appearance: none;
+                -webkit-appearance: none;
+            }
+            .word-taqfeet {
+                background: transparent !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="receipt-card">
+        <div class="header">
+            <div class="icon">✧</div>
+            <h1>إيصال مستحقات ذكي</h1>
+            <p>Payment Receipt Document</p>
+        </div>
+
+        <div class="details-section">
+            <div class="info-row">
+                <span class="label">رقم الإيصال</span>
+                <span class="editable-field" contenteditable="true">#0482</span>
+            </div>
+            <div class="row info-row">
+                <span class="label">التاريخ</span>
+                <span class="editable-field" contenteditable="true" id="date">23 سبتمبر 2026</span>
+            </div>
+            <div class="info-row">
+                <span class="label">مستحقات العميل</span>
+                <span class="editable-field" contenteditable="true">أحمد محمد</span>
+            </div>
+            <div class="info-row">
+                <span class="label">مقابل خدمات</span>
+                <span class="editable-field" contenteditable="true">تصميم وتطوير واجهات الويب</span>
+            </div>
+            <div class="info-row">
+                <span class="label">طريقة الدفع</span>
+                <span class="val">
+                    <select id="payment-method">
+                        <option value="1">انستاباي (InstaPay)</option>
+                        <option value="2">فودافون كاش (Vodafone Cash)</option>
+                        <option value="3">تحويل بنكي (Bank Transfer)</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+
+        <div class="amount-container">
+            <span class="amount-title">المبلغ المستلم إلكترونياً</span>
+            <div class="amount-wrapper">
+                <span class="amount-val" id="num-input" contenteditable="true">2000</span>
+                <span class="currency">ج.م</span>
+            </div>
+            <!-- حقل التفقيط اللحظي السلس -->
+            <div class="word-taqfeet" id="word-output">فقط ألفان جنيه مصري لا غير</div>
+        </div>
+
+        <div class="footer">
+            <p>نشكركم على حسن تعاونكم وثقتكم بنا.</p>
+        </div>
+    </div>
+
+    <div class="btn-wrapper">
+        <button class="action-btn" onclick="window.print()">حفظ وطباعة الإيصال</button>
+    </div>
+
+    <script>
+        // إعداد التاريخ التلقائي لليوم الحالي
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('date').innerText = new Date().toLocaleDateString('ar-EG', options);
+
+        // نظام التفقيط البرمجي الاحترافي المتطور لمنع أي تعليق
+        function taqfeet(num) {
+            if (num === 0 || isNaN(num)) return 'صفر جنيه مصري';
+            
