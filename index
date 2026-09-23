@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إيصال استلام نقدية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>نظام إصدار إيصالات المستحقات الذكي</title>
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --accent-color: #0d9488;
-            --text-color: #1f2937;
-            --border-color: #e5e7eb;
-            --bg-light: #f8fafc;
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #0ea5e9;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --bg-panel: #ffffff;
         }
 
         * {
@@ -24,385 +25,312 @@
 
         body {
             background-color: #f1f5f9;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            color: var(--text-dark);
             min-height: 100vh;
-            color: var(--text-color);
-        }
-
-        .receipt-card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 850px;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border-top: 10px solid var(--primary-color);
-            position: relative;
-        }
-
-        .header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px dashed var(--border-color);
-            padding-bottom: 24px;
-            margin-bottom: 28px;
         }
 
-        .company-info h2 {
-            font-size: 22px;
-            color: var(--primary-color);
+        /* تقسيم الشاشة إلى جزأين: إدخال على اليمين ومعاينة على اليسار */
+        .app-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+            gap: 30px;
+        }
+
+        /* لوحة إدخال البيانات - الجانب الأيمن */
+        .input-panel {
+            flex: 1;
+            background: var(--bg-panel);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid var(--border);
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 4px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
         }
 
-        .company-info p {
-            color: #6b7280;
-            font-size: 13px;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
         }
 
-        .receipt-title {
-            text-align: center;
-        }
-
-        .receipt-title h1 {
-            font-size: 22px;
-            color: var(--primary-color);
-            background: #eff6ff;
-            padding: 8px 24px;
-            border-radius: 30px;
-            border: 1px solid #bfdbfe;
-            display: inline-block;
-        }
-
-        .meta-data {
-            text-align: left;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .meta-field {
-            margin-bottom: 6px;
-        }
-
-        .meta-field span {
-            color: #dc2626;
-        }
-
-        .body-form {
+        .input-group {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 6px;
         }
 
-        .form-group {
-            display: flex;
-            align-items: center;
+        .input-group.row-fluid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
         label {
-            font-weight: 600;
-            color: #374151;
-            white-space: nowrap;
-            min-width: 140px;
-            font-size: 15px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-dark);
         }
 
-        input[type="text"], input[type="number"], input[type="date"], select {
+        input, select {
             width: 100%;
             padding: 10px 14px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             outline: none;
+            background: #f8fafc;
             transition: all 0.2s ease;
-            background: #f9fafb;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
-            border-color: var(--secondary-color);
+        input:focus, select:focus {
+            border-color: var(--secondary);
             background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        .amount-box {
-            background: #f0fdf4;
-            border: 2px dashed #86efac;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 8px 0;
-        }
-
-        .amount-words-output {
-            color: #166534;
-            font-weight: 700;
-            font-size: 16px;
-            padding: 10px 16px;
-            background: #ffffff;
-            border-radius: 8px;
-            border: 1px solid #bbf7d0;
-            min-height: 46px;
+        /* لوحة معاينة الإيصال المصغر - الجانب الأيسر */
+        .preview-panel {
+            flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* تصغير حجم بطاقة الإيصال البصري وجعلها أنيقة جداً */
+        .receipt-card {
+            background: #ffffff;
             width: 100%;
+            max-width: 440px; /* حجم مصغر وشيك للويب والطباعة */
+            padding: 35px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border);
+            position: relative;
+            border-top: 8px solid var(--primary);
         }
 
-        .footer {
-            margin-top: 40px;
-            padding-top: 25px;
-            border-top: 1px dashed var(--border-color);
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+        .receipt-header {
             text-align: center;
-            gap: 20px;
+            margin-bottom: 25px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 15px;
         }
 
-        .signature-box p {
-            font-weight: 600;
-            margin-bottom: 45px;
-            color: #4b5563;
+        .receipt-header h2 {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .receipt-header p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .receipt-title-box {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .receipt-title-box h1 {
             font-size: 15px;
+            background: #f0f4ff;
+            color: var(--primary);
+            padding: 4px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 700;
         }
 
-        .signature-line {
-            width: 80%;
-            margin: 0 auto;
-            border-bottom: 1px solid #9ca3af;
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #f8fafc;
+            font-size: 13px;
         }
 
-        .actions {
-            margin-top: 30px;
+        .receipt-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .receipt-lbl {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .receipt-val {
+            color: var(--text-dark);
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .receipt-amount-box {
+            background: #f0fdf4;
+            border: 1px dashed #bbf7d0;
+            padding: 16px;
+            border-radius: 12px;
             text-align: center;
+            margin: 20px 0;
         }
 
-        .btn-print {
-            background-color: var(--primary-color);
+        .view-num {
+            font-size: 28px;
+            font-weight: 800;
+            color: #16a34a;
+            display: block;
+        }
+
+        .view-words {
+            font-size: 12px;
+            color: #15803d;
+            font-weight: 700;
+            margin-top: 4px;
+            background: #ffffff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            border: 1px solid #f0fdf4;
+        }
+
+        .receipt-footer-signatures {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px dashed var(--border);
+            padding-top: 15px;
+        }
+
+        .sig-box p {
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+        }
+
+        .sig-line {
+            width: 70%;
+            margin: 0 auto;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .action-area {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             border: none;
-            padding: 12px 36px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 8px;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 10px;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .btn-print:hover {
-            background-color: var(--secondary-color);
+        .btn-submit:hover {
             transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(30, 58, 138, 0.25);
         }
 
+        /* إعدادات الطباعة الاستثنائية: إخفاء لوحة التحكم اليمنى وطباعة الإيصال الصغير فقط في منتصف الصفحة */
         @media print {
             body {
                 background: white;
+                justify-content: center;
+                align-items: center;
                 padding: 0;
             }
-            .receipt-card {
-                box-shadow: none;
-                border: 1px solid #ccc;
-                max-width: 100%;
+            .input-panel, .action-area {
+                display: none !important;
+            }
+            .preview-panel {
                 width: 100%;
-                border-radius: 0;
             }
-            .actions {
-                display: none;
+            .receipt-card {
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                max-width: 440px !important;
+                margin: 0 auto;
             }
-            input, select {
-                border: none !important;
-                background: transparent !important;
-                padding: 0 !important;
+        }
+
+        @media (max-width: 900px) {
+            .app-container {
+                flex-direction: column;
+                padding: 15px;
             }
-            .amount-box {
-                border: 1px solid #cbd5e1;
-                background: #f8fafc;
+            .receipt-card {
+                max-width: 100%;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="receipt-card">
-        <div class="header">
-            <div class="company-info">
-                <h2 contenteditable="true">اسم الشركة / المؤسسة</h2>
-                <p contenteditable="true">العنوان: القاهرة، مصر | هاتف: 01000000000</p>
-            </div>
-            <div class="receipt-title">
-                <h1>إيصال استلام نقدية</h1>
-            </div>
-            <div class="meta-data">
-                <div class="meta-field">الرقم: <span contenteditable="true">#REC-1001</span></div>
-                <div class="meta-field">التاريخ: <input type="date" id="receiptDate" style="width: auto; display: inline-block;"></div>
-            </div>
-        </div>
-
-        <div class="body-form">
-            <div class="form-group">
-                <label>استلمنا من السيد/السادة:</label>
-                <input type="text" placeholder="اسم العميل الكامل..." id="clientName">
-            </div>
-
-            <div class="amount-box">
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>المبلغ بالأرقام:</label>
-                        <input type="number" id="amountInput" placeholder="0.00" step="any" oninput="processTafqeet()">
+    <div class="app-container">
+        
+        <!-- لوحة الإدخال (الجانب الأيمن) -->
+        <div class="input-panel">
+            <div class="panel-title">✍️ إدخال بيانات المستحقات</div>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>اسم الشركة / المؤسسة</label>
+                    <input type="text" id="inCompany" value="مؤسسة الشيخ الذكية" oninput="syncData()">
+                </div>
+                <div class="input-group">
+                    <label>الهاتف والعنوان</label>
+                    <input type="text" id="inSub" value="القاهرة، مصر | هاتف: 01000000000" oninput="syncData()">
+                </div>
+                <div class="input-group row-fluid">
+                    <div>
+                        <label>رقم الإيصال</label>
+                        <input type="text" id="inNum" value="#REC-1042" oninput="syncData()">
                     </div>
-                    <div class="form-group">
-                        <label>العملة:</label>
-                        <select id="currencySelect" onchange="processTafqeet()">
-                            <option value="جنيه مصري">جنيه مصري</option>
-                            <option value="ريال سعودي">ريال سعودي</option>
-                            <option value="درهم إماراتي">درهم إماراتي</option>
-                            <option value="دولار أمريكي">دولار أمريكي</option>
-                            <option value="دينار كويتي">دينار كويتي</option>
+                    <div>
+                        <label>التاريخ</label>
+                        <input type="date" id="inDate" onchange="syncData()">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>استلمنا من السيد/السادة</label>
+                    <input type="text" id="inClient" value="أحمد محمد علي" oninput="syncData()">
+                </div>
+                <div class="input-group">
+                    <label>وذلك مقابل بيان</label>
+                    <input type="text" id="inReason" value="تسوية مستحقات برمجية وتصميم واجهات ويب" oninput="syncData()">
+                </div>
+                <div class="input-group row-fluid">
+                    <div>
+                        <label>طريقة الدفع</label>
+                        <select id="inMethod" onchange="syncData()">
+                            <option value="انستاباي (InstaPay)">انستاباي (InstaPay)</option>
+                            <option value="فودافون كاش (Vodafone Cash)">فودافون كاش (Vodafone Cash)</option>
+                            <option value="تحويل بنكي مباشر">تحويل بنكي مباشر</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group" style="margin-top: 14px;">
-                    <label>المبلغ تفقيطاً:</label>
-                    <div class="amount-words-output" id="amountWords">فقط لا غير...</div>
-                </div>
-            </div>
-
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>طريقة الدفع:</label>
-                    <select>
-                        <option>نقداً (Cash)</option>
-                        <option>شيك (Check)</option>
-                        <option>تحويل بنكي (Bank Transfer)</option>
-                        <option>بطاقة ائتمان (Card)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>رقم الشيك / العملية:</label>
-                    <input type="text" placeholder="اختياري...">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>وذلك عن / مقابل:</label>
-                <input type="text" placeholder="سبب الدفع (دفعه مقدمه)...">
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="signature-box">
-                <p>المستلم</p>
-                <div class="signature-line"></div>
-            </div>
-            
-                <div class="signature-line"></div>
-            </div>
-            <div class="signature-box">
-                <p>ختم الشركة</p>
-                <div class="signature-line"></div>
-            </div>
-        </div>
-
-        <div class="actions">
-            <button class="btn-print" onclick="window.print()">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H8a2 2 0 00-2 2v4h12z"></path>
-                </svg>
-                طباعة الإيصال
-            </button>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('receiptDate').valueAsDate = new Date();
-
-        function tafqeetArabic(num) {
-            if (isNaN(num) || num <= 0) return "";
-
-            const ones = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة",
-                          "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر", "خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر"];
-            const tens = ["", "", "عشرون", "ثلاثون", "أربعون", "خمسون", "ستون", "سبعون", "ثمانون", "تسعون"];
-            const hundreds = ["", "مائة", "مائتان", "ثلاثمائة", "أربعمائة", "خمسعمائة", "ستمائة", "سبعمائة", "ثمانمائة", "تسعمائة"];
-
-            function convertGroup(n) {
-                let text = "";
-                let h = Math.floor(n / 100);
-                let rem = n % 100;
-
-                if (h > 0) text += hundreds[h];
-                if (rem > 0) {
-                    if (text !== "") text += " و";
-                    if (rem < 20) {
-                        text += ones[rem];
-                    } else {
-                        let t = Math.floor(rem / 10);
-                        let o = rem % 10;
-                        if (o > 0) text += ones[o] + " و" + tens[t];
-                        else text += tens[t];
-                    }
-                }
-                return text;
-            }
-
-            let integerPart = Math.floor(num);
-            let result = "";
-
-            let millions = Math.floor(integerPart / 1000000);
-            integerPart %= 1000000;
-            if (millions > 0) {
-                if (millions === 1) result += "مليون";
-                else if (millions === 2) result += "مليونان";
-                else if (millions >= 3 && millions <= 10) result += convertGroup(millions) + " ملايين";
-                else result += convertGroup(millions) + " مليون";
-            }
-
-            let thousands = Math.floor(integerPart / 1000);
-            integerPart %= 1000;
-            if (thousands > 0) {
-                if (result !== "") result += " و";
-                if (thousands === 1) result += "ألف";
-                else if (thousands === 2) result += "ألفان";
-                else if (thousands >= 3 && thousands <= 10) result += convertGroup(thousands) + "ألفاً";
-                else result += convertGroup(thousands) + " ألفاً";
-            }
-
-            if (integerPart > 0) {
-                if (result !== "") result += " و";
-                result += convertGroup(integerPart);
-            }
-
-            return result;
-        }
-
-        function processTafqeet() {
-            const val = parseFloat(document.getElementById('amountInput').value);
-            const currency = document.getElementById('currencySelect').value;
-            const output = document.getElementById('amountWords');
-
-            if (!val || val <= 0) {
-                output.innerText = "فقط لا غير...";
-                return;
-            }
-
-            const words = tafqeetArabic(val);
-            if (words) {
-                output.innerText = "فقط " + words + " " + currency + " لا غير.";
-            } else {
-                output.innerText = "فقط لا غير...";
-            }
-        }
-    </script>
-</body>
-
+                    <div>
