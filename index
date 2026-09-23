@@ -3,320 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إيصال مستحقات ذكي مرن</title>
+    <title>إيصال استلام نقدية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://googleapis.com');
-
         :root {
-            --bg-color: #fbfbfd;
-            --text-dark: #1d1d1f;
-            --text-muted: #86868b;
-            --gold: #c5a880;
-            --border: #f2f2f2;
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #0d9488;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --bg-light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            margin: 0;
+            background-color: #f1f5f9;
             padding: 40px 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
+            color: var(--text-color);
         }
 
-        .receipt-box {
+        .receipt-card {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 45px 35px;
-            max-width: 440px;
             width: 100%;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
-            border: 1px solid var(--border);
+            max-width: 850px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-top: 10px solid var(--primary-color);
+            position: relative;
         }
 
         .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header .logo {
-            font-size: 28px;
-            font-weight: 300;
-            color: var(--gold);
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .header p {
-            margin: 4px 0 0 0;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        .details {
-            margin-bottom: 35px;
-        }
-
-        .row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 24px;
+            margin-bottom: 28px;
         }
 
-        .row:last-child {
-            border-bottom: none;
+        .company-info h2 {
+            font-size: 22px;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
-        .lbl {
-            color: var(--text-muted);
-            font-weight: 400;
+        .company-info p {
+            color: #6b7280;
+            font-size: 13px;
         }
 
-        .editable-val {
-            font-weight: 600;
-            color: var(--text-dark);
-            border-bottom: 1px dashed #cbd5e1;
-            padding: 2px 6px;
-            min-width: 120px;
-            text-align: left;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .editable-val:focus {
-            border-bottom-color: var(--gold);
-            background-color: #f8fafc;
-            border-radius: 4px;
-        }
-
-        select {
-            font-family: 'Cairo', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-dark);
-            border: none;
-            border-bottom: 1px dashed #cbd5e1;
-            outline: none;
-            background: transparent;
-            cursor: pointer;
-            padding: 2px 4px;
-            text-align: left;
-            direction: rtl;
-        }
-
-        .amount-section {
+        .receipt-title {
             text-align: center;
-            padding: 25px 0 10px 0;
-            border-top: 1px solid var(--border);
         }
 
-        .amount-lbl {
-            font-size: 11px;
-            color: var(--text-muted);
-            letter-spacing: 1px;
+        .receipt-title h1 {
+            font-size: 22px;
+            color: var(--primary-color);
+            background: #eff6ff;
+            padding: 8px 24px;
+            border-radius: 30px;
+            border: 1px solid #bfdbfe;
+            display: inline-block;
+        }
+
+        .meta-data {
+            text-align: left;
+            font-size: 14px;
             font-weight: 600;
-            display: block;
-            margin-bottom: 5px;
         }
 
-        .amount-wrapper {
+        .meta-field {
+            margin-bottom: 6px;
+        }
+
+        .meta-field span {
+            color: #dc2626;
+        }
+
+        .body-form {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 12px;
         }
 
-        /* حقل رقمي حقيقي بتصميم مخفي وراقي يحل المشكلة تماماً */
-        .real-input {
-            font-family: 'Cairo', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text-dark);
-            border: none;
-            border-bottom: 2px dashed #cbd5e1;
-            width: 160px;
-            text-align: center;
-            outline: none;
-            background: transparent;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .real-input:focus {
-            border-bottom-color: var(--gold);
-            background-color: #f8fafc;
-            border-radius: 8px;
-        }
-
-        /* إخفاء أسهم الزيادة والنقصان الافتراضية للمتصفح */
-        .real-input::-webkit-outer-spin-button,
-        .real-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .real-input {
-            -moz-appearance: textfield;
-        }
-
-        .currency-label {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .word-amount {
-            font-size: 13px;
-            color: var(--gold);
+        label {
             font-weight: 600;
-            margin-top: 10px;
-            min-height: 20px;
+            color: #374151;
+            white-space: nowrap;
+            min-width: 140px;
+            font-size: 15px;
         }
 
-        .btn-area {
-            margin-top: 25px;
+        input[type="text"], input[type="number"], input[type="date"], select {
             width: 100%;
-            max-width: 440px;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #f9fafb;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
+            border-color: var(--secondary-color);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .amount-box {
+            background: #f0fdf4;
+            border: 2px dashed #86efac;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 8px 0;
+        }
+
+        .amount-words-output {
+            color: #166534;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 10px 16px;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #bbf7d0;
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px dashed var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .signature-box p {
+            font-weight: 600;
+            margin-bottom: 45px;
+            color: #4b5563;
+            font-size: 15px;
+        }
+
+        .signature-line {
+            width: 80%;
+            margin: 0 auto;
+            border-bottom: 1px solid #9ca3af;
+        }
+
+        .actions {
+            margin-top: 30px;
             text-align: center;
         }
 
-        .print-btn {
-            font-family: 'Cairo', sans-serif;
-            background: none;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 10px 24px;
-            font-size: 13px;
+        .btn-print {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 36px;
+            font-size: 16px;
             font-weight: 600;
-            border-radius: 50px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .print-btn:hover {
-            background: var(--gold);
-            color: #ffffff;
+        .btn-print:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
         }
 
         @media print {
-            body { background: white; padding: 0; }
-            .receipt-box { box-shadow: none; border: none; padding: 0; }
-            .print-btn { display: none; }
-            .editable-val {
-                border-bottom: none !important;
+            body {
+                background: white;
+                padding: 0;
+            }
+            .receipt-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                max-width: 100%;
+                width: 100%;
+                border-radius: 0;
+            }
+            .actions {
+                display: none;
+            }
+            input, select {
+                border: none !important;
+                background: transparent !important;
                 padding: 0 !important;
-                background: transparent !important;
             }
-            .real-input {
-                border-bottom: none !important;
-                background: transparent !important;
-                text-align: center !important;
-            }
-            select {
-                border-bottom: none !important;
-                appearance: none;
-                -webkit-appearance: none;
+            .amount-box {
+                border: 1px solid #cbd5e1;
+                background: #f8fafc;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="receipt-box">
+    <div class="receipt-card">
         <div class="header">
-            <div class="logo">✦</div>
-            <h1>إيصال مستحقات رقمي</h1>
-            <p>Payment Receipt</p>
+            <div class="company-info">
+                <h2 contenteditable="true">اسم الشركة / المؤسسة</h2>
+                <p contenteditable="true">العنوان: القاهرة، مصر | هاتف: 01000000000</p>
+            </div>
+            <div class="receipt-title">
+                <h1>إيصال استلام نقدية</h1>
+            </div>
+            <div class="meta-data">
+                <div class="meta-field">الرقم: <span contenteditable="true">#REC-1001</span></div>
+                <div class="meta-field">التاريخ: <input type="date" id="receiptDate" style="width: auto; display: inline-block;"></div>
+            </div>
         </div>
 
-        <div class="details">
-            <div class="row">
-                <span class="lbl">رقم الإيصال</span>
-                <span class="editable-val" contenteditable="true">#0482</span>
+        <div class="body-form">
+            <div class="form-group">
+                <label>استلمنا من السيد/السادة:</label>
+                <input type="text" placeholder="اسم العميل الكامل..." id="clientName">
             </div>
-            <div class="row">
-                <span class="lbl">التاريخ</span>
-                <span class="val" id="date">23 سبتمبر 2026</span>
+
+            <div class="amount-box">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>المبلغ بالأرقام:</label>
+                        <input type="number" id="amountInput" placeholder="0.00" step="any" oninput="processTafqeet()">
+                    </div>
+                    <div class="form-group">
+                        <label>العملة:</label>
+                        <select id="currencySelect" onchange="processTafqeet()">
+                            <option value="جنيه مصري">جنيه مصري</option>
+                            <option value="ريال سعودي">ريال سعودي</option>
+                            <option value="درهم إماراتي">درهم إماراتي</option>
+                            <option value="دولار أمريكي">دولار أمريكي</option>
+                            <option value="دينار كويتي">دينار كويتي</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 14px;">
+                    <label>المبلغ تفقيطاً:</label>
+                    <div class="amount-words-output" id="amountWords">فقط لا غير...</div>
+                </div>
             </div>
-            <div class="row">
-                <span class="lbl">العميل</span>
-                <span class="editable-val" contenteditable="true">أحمد محمد</span>
-            </div>
-            <div class="row">
-                <span class="lbl">مقابل خدمات</span>
-                <span class="editable-val" contenteditable="true">تصميم وتطوير واجهات</span>
-            </div>
-            <div class="row">
-                <span class="lbl">طريقة الدفع</span>
-                <span class="val">
-                    <select id="payment-method">
-                        <option value="1">تحويل بنكي</option>
-                        <option value="2">فودافون كاش</option>
-                        <option value="3">انستاباي</option>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>طريقة الدفع:</label>
+                    <select>
+                        <option>نقداً (Cash)</option>
+                        <option>شيك (Check)</option>
+                        <option>تحويل بنكي (Bank Transfer)</option>
+                        <option>بطاقة ائتمان (Card)</option>
                     </select>
-                </span>
+                </div>
+                <div class="form-group">
+                    <label>رقم الشيك / العملية:</label>
+                    <input type="text" placeholder="اختياري...">
+                </div>
             </div>
-        </div>
 
-        <div class="amount-section">
-            <span class="amount-lbl">المبلغ المستلم</span>
-            <div class="amount-wrapper">
-                <!-- استخدام حقل إدخال رقمي قياسي لضمان عمل الجافا سكريبت بنسبة 100% -->
-                <input type="number" class="real-input" id="num-input" value="2000">
-                <span class="currency-label">ج.م</span>
+            <div class="form-group">
+                <label>وذلك عن / مقابل:</label>
+                <input type="text" placeholder="سبب الدفع (مثال: دفعة من حساب الفاتورة رقم 505)...">
             </div>
-            <div class="word-amount" id="word-output">فقط ألفان جنيه مصري لا غير</div>
         </div>
 
         <div class="footer">
-            <p>شكراً لثقتكم بنا.</p>
+            <div class="signature-box">
+                <p>المستلم</p>
+                <div class="signature-line"></div>
+            </div>
+            <div class="signature-box">
+                <p>المحاسب</p>
+                <div class="signature-line"></div>
+            </div>
+            <div class="signature-box">
+                <p>ختم الشركة</p>
+                <div class="signature-line"></div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-print" onclick="window.print()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H8a2 2 0 00-2 2v4h12z"></path>
+                </svg>
+                طباعة الإيصال
+            </button>
         </div>
     </div>
 
-    <div class="btn-area">
-        <button class="print-btn" onclick="window.print()">تحميل وحفظ الإيصال</button>
-    </div>
-
     <script>
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('date').innerText = new Date().toLocaleDateString('ar-EG', options);
+        document.getElementById('receiptDate').valueAsDate = new Date();
 
-        function taqfeet(num) {
-            if (num === 0 || isNaN(num)) return 'صفر جنيه مصري';
-            
-            const ones = ['', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة', 'عشرة', 'أحد عشر', 'اثنا عشر', 'ثلاثة عشر', 'أربعة عشر', 'خمسة عشر', 'ستة عشر', 'سبعة عشر', 'ثمانية عشر', 'تسعة عشر'];
-            const tens = ['', '', 'عشرون', 'ثلاثون', 'أربعون', 'خمسون', 'ستون', 'سبعون', 'ثمانون', 'تسعون'];
-            const hundreds = ['', 'مائة', 'مائتان', 'ثلاثمائة', 'أربعمائة', 'خمسمائة', 'ستمائة', 'سبعمائة', 'ثمانمائة', 'تسعمائة'];
+        function tafqeetArabic(num) {
+            if (isNaN(num) || num <= 0) return "";
 
-            function convertLessThanKey(n) {
-                if (n < 20) return ones[n];
-                const digit = n % 10;
-                return tens[Math.floor(n / 10)] + (digit > 0 ? ' و' + ones[digit] : '');
+            const ones = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة",
+                          "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر", "خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر"];
+            const tens = ["", "", "عشرون", "ثلاثون", "أربعون", "خمسون", "ستون", "سبعون", "ثمانون", "تسعون"];
+            const hundreds = ["", "مائة", "مائتان", "ثلاثمائة", "أربعمائة", "خمسعمائة", "ستمائة", "سبعمائة", "ثمانمائة", "تسعمائة"];
+
+            function convertGroup(n) {
+                let text = "";
+                let h = Math.floor(n / 100);
+                let rem = n % 100;
+
+                if (h > 0) text += hundreds[h];
+                if (rem > 0) {
+                    if (text !== "") text += " و";
+                    if (rem < 20) {
+                        text += ones[rem];
+                    } else {
+                        let t = Math.floor(rem / 10);
+                        let o = rem % 10;
+                        if (o > 0) text += ones[o] + " و" + tens[t];
+                        else text += tens[t];
+                    }
+                }
+                return text;
             }
 
-            function convertLessThanThousand(n) {
-                if (n < 100) return convertLessThanKey(n);
-                const remainder = n % 100;
-                return hundreds[Math.floor(n / 100)] + (remainder > 0 ? ' و' + convertLessThanKey(remainder) : '');
+            let integerPart = Math.floor(num);
+            let result = "";
+
+            let millions = Math.floor(integerPart / 1000000);
+            integerPart %= 1000000;
+            if (millions > 0) {
+                if (millions === 1) result += "مليون";
+                else if (millions === 2) result += "مليونان";
+                else if (millions >= 3 && millions <= 10) result += convertGroup(millions) + " ملايين";
+                else result += convertGroup(millions) + " مليون";
             }
 
-            function convert(n) {
-                if (n < 1000) return convertLessThanThousand(n);
-                if (n < 1000000) {
-                    const thousands = Math.floor(n / 1000);
-                    const remainder = n % 1000;
-                    let thStr = '';
+            let thousands = Math.floor(integerPart / 1000);
+            integerPart %= 1000;
+            if (thousands > 0) {
+                if (result !== "") result += " و";
+                if (thousands === 1) result += "ألف";
+                else if (thousands === 2) result += "ألفان";
+                else if (thousands >= 3 && thousands <= 10) result += convertGroup(thousands) + " آلاف";
+                else result += convertGroup(thousands) + " ألفاً";
+            }
+
+            if (integerPart > 0) {
+                if (result !== "") result += " و";
+                result += convertGroup(integerPart);
+            }
+
+            return result;
+        }
+
+        function processTafqeet() {
+            const val = parseFloat(document.getElementById('amountInput').value);
+            const currency = document.getElementById('currencySelect').value;
+            const output = document.getElementById('amountWords');
+
+            if (!val || val <= 0) {
+                output.innerText = "فقط لا غير...";
+                return;
+            }
+
+            const words = tafqeetArabic(val);
+            if (words) {
+                output.innerText = "فقط " + words + " " + currency + " لا غير.";
+            } else {
+                output.innerText = "فقط لا غير...";
+            }
+        }
+    </script>
+</body>
+</html>
