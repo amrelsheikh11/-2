@@ -136,21 +136,41 @@
             margin-bottom: 5px;
         }
 
-        .amount-editable {
+        .amount-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* حقل رقمي حقيقي بتصميم مخفي وراقي يحل المشكلة تماماً */
+        .real-input {
+            font-family: 'Cairo', sans-serif;
             font-size: 36px;
             font-weight: 700;
             color: var(--text-dark);
-            outline: none;
-            display: inline-block;
-            min-width: 80px;
+            border: none;
             border-bottom: 2px dashed #cbd5e1;
-            padding: 0 5px;
-            margin-left: 5px;
+            width: 160px;
+            text-align: center;
+            outline: none;
+            background: transparent;
         }
 
-        .amount-editable:focus {
+        .real-input:focus {
             border-bottom-color: var(--gold);
             background-color: #f8fafc;
+            border-radius: 8px;
+        }
+
+        /* إخفاء أسهم الزيادة والنقصان الافتراضية للمتصفح */
+        .real-input::-webkit-outer-spin-button,
+        .real-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .real-input {
+            -moz-appearance: textfield;
         }
 
         .currency-label {
@@ -165,14 +185,6 @@
             font-weight: 600;
             margin-top: 10px;
             min-height: 20px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 35px;
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 300;
         }
 
         .btn-area {
@@ -204,10 +216,15 @@
             body { background: white; padding: 0; }
             .receipt-box { box-shadow: none; border: none; padding: 0; }
             .print-btn { display: none; }
-            .editable-val, .amount-editable {
+            .editable-val {
                 border-bottom: none !important;
                 padding: 0 !important;
                 background: transparent !important;
+            }
+            .real-input {
+                border-bottom: none !important;
+                background: transparent !important;
+                text-align: center !important;
             }
             select {
                 border-bottom: none !important;
@@ -257,8 +274,9 @@
 
         <div class="amount-section">
             <span class="amount-lbl">المبلغ المستلم</span>
-            <div>
-                <span class="amount-editable" id="num-input" contenteditable="true">2000</span>
+            <div class="amount-wrapper">
+                <!-- استخدام حقل إدخال رقمي قياسي لضمان عمل الجافا سكريبت بنسبة 100% -->
+                <input type="number" class="real-input" id="num-input" value="2000">
                 <span class="currency-label">ج.م</span>
             </div>
             <div class="word-amount" id="word-output">فقط ألفان جنيه مصري لا غير</div>
@@ -302,19 +320,3 @@
                     const thousands = Math.floor(n / 1000);
                     const remainder = n % 1000;
                     let thStr = '';
-                    if (thousands === 1) thStr = 'ألف';
-                    else if (thousands === 2) thStr = 'ألفان';
-                    else if (thousands >= 3 && thousands <= 10) thStr = ones[thousands] + ' آلاف';
-                    else thStr = convertLessThanThousand(thousands) + ' ألف';
-                    
-                    return thStr + (remainder > 0 ? ' و' + convertLessThanThousand(remainder) : '');
-                }
-                return n;
-            }
-
-            return 'فقط ' + convert(num) + ' جنيه مصري لا غير';
-        }
-
-        const input = document.getElementById('num-input');
-        const output = document.getElementById('word-output');
-
