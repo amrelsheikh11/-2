@@ -297,7 +297,7 @@
 
             <div class="form-group">
                 <label>وذلك عن / مقابل:</label>
-                <input type="text" placeholder="سبب الدفع (مثال: دفعة من حساب الفاتورة رقم 505)...">
+                <input type="text" placeholder="سبب الدفع (دفعه مقدمه)...">
             </div>
         </div>
 
@@ -306,8 +306,7 @@
                 <p>المستلم</p>
                 <div class="signature-line"></div>
             </div>
-            <div class="signature-box">
-                <p>المحاسب</p>
+            
                 <div class="signature-line"></div>
             </div>
             <div class="signature-box">
@@ -375,7 +374,7 @@
                 if (result !== "") result += " و";
                 if (thousands === 1) result += "ألف";
                 else if (thousands === 2) result += "ألفان";
-                else if (thousands >= 3 && thousands <= 10) result += convertGroup(thousands) + " آلاف";
+                else if (thousands >= 3 && thousands <= 10) result += convertGroup(thousands) + "ألفاً";
                 else result += convertGroup(thousands) + " ألفاً";
             }
 
